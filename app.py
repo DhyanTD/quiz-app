@@ -213,7 +213,7 @@ def register():
 		# send_confirmation_email(email)
 
 		username = form.username.data
-		password = sha256_crypt.encrypt(str(form.password.data))
+		password = form.password.data
 		# password = str(form.password.data)
 		cur = mysql.connection.cursor()
 		cur.execute('INSERT INTO users(username,name,email, password,confirmed) values(%s,%s,%s,%s,0)', (username,name, email, password))
@@ -242,7 +242,7 @@ def login():
 			if confirmed == 0:
 				error = 'Please confirm email before logging in'
 				return render_template('login.html', error=error)
-			if sha256_crypt.verify(password_candidate, password):
+			if (password_candidate == password):
 				session['logged_in'] = True
 				session['username'] = username
 				session['name'] = name

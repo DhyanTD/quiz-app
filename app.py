@@ -31,7 +31,7 @@ app.secret_key= 'huihui'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'data'
+app.config['MYSQL_DB'] = 'flask'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 
@@ -175,7 +175,7 @@ class UploadForm(FlaskForm):
 	password = StringField('Test Password', [validators.Length(min=3, max=6)])
 
 	def validate_end_date(form, field):
-		if field.data < form.start_date.data:
+		if (field.data < form.start_date.data):
 			raise ValidationError("End date must not be earlier than start date.")
 	
 	def validate_end_time(form, field):
@@ -275,8 +275,8 @@ def logout():
 @is_logged
 def create_test():
 	form = UploadForm()
-	if request.method == 'POST' and form.validate_on_submit():
-	# if request.method == 'POST':
+	# if request.method == 'POST' and form.validate_on_submit():
+	if request.method == 'POST':
 		f = form.doc.data
 		filename = secure_filename(f.filename)
 		f.save('questions/' + filename)
@@ -310,8 +310,8 @@ def create_test():
 			password = form.password.data
 			subject = form.subject.data
 			topic = form.topic.data
-			cur.execute('INSERT INTO teachers (username, test_id, start, end, duration, show_ans, password, subject, topic,neg_mark) values(%s,%s,%s,%s,%s,%s,%s, %s,%s,%s)',
-				(dict(session)['username'], test_id, start_date_time, end_date_time, duration, show_result, password, subject, topic, neg_mark))
+			cur.execute('INSERT INTO teachers (username, test_id, start, end, duration, show_ans, password,subject, topic,neg_mark) values(%s,%s,%s,%s,%s,%s,%s, %s,%s,%s)',
+				(dict(session)['username'], test_id, start_date_time, end_date_time, duration, show_result, password,subject, topic, neg_mark))
 			mysql.connection.commit()
 			cur.close()
 			flash(f'Test ID: {test_id}', 'success')

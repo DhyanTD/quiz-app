@@ -234,6 +234,7 @@ def login():
 		cur = mysql.connection.cursor()
 		results = cur.execute('SELECT * from users where username = %s' , [username])
 		if results > 0:
+			
 			data = cur.fetchone()
 			password = data['password']
 			# confirmed = data['confirmed']

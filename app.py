@@ -195,7 +195,16 @@ class TestForm(Form):
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	try:
+		if(session['logged_in'] == True and session['u_type'] == 1):
+			return redirect(url_for('dashboard'))
+
+		elif(session['logged_in'] == True and session['u_type'] == 2):
+			return redirect(url_for('control_admin'))
+
+	except:
+		return redirect(url_for('login'))
+
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -247,7 +256,12 @@ def login():
 				session['logged_in'] = True
 				session['username'] = username
 				session['name'] = name
-				return redirect(url_for('dashboard'))
+				session['u_type'] = data['u_type']
+
+				if(data['u_type'] == 1):
+					return redirect(url_for('dashboard'))
+				if(data['u_type'] == 2):
+					return redirect(url_for('control_admin'))
 			else:
 				error = 'Invalid password'
 				return render_template('login.html', error=error)
@@ -261,7 +275,11 @@ def login():
 @app.route('/dashboard')
 @is_logged
 def dashboard():
-	return render_template('dashboard.html')
+	if(session['logged_in'] == True and session['u_type'] == 1):
+			return render_template('dashboard.html')
+
+	elif(session['logged_in'] == True and session['u_type'] == 2):
+		return redirect(url_for('control_admin'))
 
 
 @app.route('/logout')
@@ -637,6 +655,41 @@ def confirm_email(token):
 
 @app.route('/control')
 def control():
+	return redirect(url_for('login'))
+
+@app.route('/control-signup', methods=['GET','POST'])
+def control_singnup():
+	form = RegisterForm(request.form)
+	if request.method == 'POST' and form.validate():
+		name = form.name.data 
+		email = form.email.data
+
+		#email verifier	
+		# data = client.get(email)
+		# if str(data.smtp_check) == 'False':
+		# 	flash('Invalid email, please provide a valid email address','danger')
+		# 	return render_template('register.html', form=form)
+
+		# send_confirmation_email(email)
+
+		username = form.username.data
+		password = form.password.data
+		u_type = 2
+		# password = str(form.password.data)
+		cur = mysql.connection.cursor()
+		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,0,%s)', (username,name, email, password, u_type))
+		mysql.connection.commit()
+		cur.close()
+		flash('Thanks for registering!  Please check your email to confirm your email address.', 'success')
+		return redirect(url_for('login')) 
+		# change in login function to redirect to warning page
+
+	return render_template('admin-register.html', form=form)
+
+
+@app.route('/control-admin')
+@is_logged
+def control_admin():
 	return render_template('admin.html')
 
 

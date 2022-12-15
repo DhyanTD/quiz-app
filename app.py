@@ -203,7 +203,7 @@ def index():
 			return redirect(url_for('control_admin'))
 
 	except:
-		return render_template('index.php')
+		return render_template('index.html')
 
 
 @app.route('/register', methods=['GET','POST'])

@@ -120,7 +120,8 @@ function sendTime() {
 $(document).on('click', '#next', function(e){
     e.preventDefault();
     curr += 1;
-    display_ques(curr+1);
+    display_ques(curr + 1);
+    // $('#submit').trigger('click');
     
 });
 

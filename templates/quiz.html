@@ -1,36 +1,37 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div style="position:absolute;">
 <script type="text/javascript"> var answers = "{{answers}}";</script>
 <div id="time">{{duration}}</div>
 <table>
-<tr>
-  <td id='queid'>Question No.</td>
-	<td id='mark'>Marks: {{ marks }}</td>
-</tr>
+  <tr>
+    <td id='queid'>Question No.</td>
+    <td id='mark'>Marks: {{ marks }}</td>
+  </tr>
 </table>
 <pre class="prettyprint" id="pretest">
   <p id="que" style="">{{ q }}</p>
 </pre>
 
 <table id="options">
-	<tr>
-		<td id='a'>𝐀. {{ a }}</td>
-		<td id='b'>𝐁. {{ b }}</td>
-	</tr>
-	<tr>
-		<td id='c'>𝐂. {{ c }}</td>
-		<td id='d'>𝐃. {{ d }}</td>
-	</tr>
+  <tr>
+    <td id='a'>𝐀. {{ a }}</td>
+    <td id='b'>𝐁. {{ b }}</td>
+  </tr>
+  <tr>
+    <td id='c'>𝐂. {{ c }}</td>
+    <td id='d'>𝐃. {{ d }}</td>
+  </tr>
 </table>
-    
+
 <div id="overlay">
   <div class="container" id="question-list">
   </div>
 </div>
 <div id="submit-overlay"></div>
 
-<footer class="page-footer fixed-bottom pt-4">
+<footer class="page-footer fixed-bottom pt-4" style="position:relative;">
   <div class="container">
 
     <ul class="list-unstyled list-inline text-center py-2">
@@ -44,10 +45,10 @@
       </li>
     </ul>
   </div>
-</footer>
+</footer></div>
 
 <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='disp.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='disp.css') }}">
 
 {% endblock %}

@@ -121,7 +121,7 @@ mysql = MySQL(app)
 @app.before_request
 def make_session_permanent():
 	session.permanent = True
-	app.permanent_session_lifetime = timedelta(minutes=5)
+	app.permanent_session_lifetime = timedelta(hours=24)
 
 
 def is_logged(f):

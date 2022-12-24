@@ -1,6 +1,6 @@
 from flask import Flask,request, render_template, flash, redirect, url_for,session, logging, send_file
 from flask_mysqldb import MySQL 
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateTimeField, BooleanField, IntegerField
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateTimeField, BooleanField, IntegerField, SelectField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from passlib.hash import sha256_crypt
@@ -161,6 +161,9 @@ class RegisterForm(Form):
 	confirm = PasswordField('Confirm Password')
 	fath = StringField('Father\'s Name')
 	school = StringField('School')
+	stream = SelectField(u'Stream', choices=[(
+		'Science', 'Science'), ('Commerce', 'Commerce')])
+	
 
 
 class UploadForm(FlaskForm):
@@ -224,9 +227,10 @@ def register():
 		password = form.password.data
 		fath = form.fath.data
 		school = form.school.data
+		stream = form.stream.data
 		# password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,fathers_name ,school ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, email, password))
+		cur.execute('INSERT INTO users(username,name,fathers_name ,school, stream ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, stream, email, password))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!  Please check your email to confirm your email address.', 'success')

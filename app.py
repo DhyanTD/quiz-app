@@ -681,7 +681,7 @@ def control_singnup():
 		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,0,%s)', (username,name, email, password, u_type))
 		mysql.connection.commit()
 		cur.close()
-		flash('Thanks for registering!  Please check your email to confirm your email address.', 'success')
+		flash('Thanks for registering!', 'success')
 		return redirect(url_for('login')) 
 		# change in login function to redirect to warning page
 

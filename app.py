@@ -151,7 +151,7 @@ def doctodict(filepath):
 
 class RegisterForm(Form):
 	name = StringField('Name', [validators.Length(min=3, max=50)])
-	username = StringField('Username', [validators.Length(min=4,max=25)])
+	username = StringField('Phone Number', [validators.Length(min=4,max=25)])
 	email = StringField('Email', [validators.Email()])
 	password = PasswordField('Password', [
 			validators.Regexp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", message="Password should contain min 8 characters including 1 letter and 1 number."),
@@ -159,6 +159,8 @@ class RegisterForm(Form):
 			validators.EqualTo('confirm', message="Password do not match")
 		])
 	confirm = PasswordField('Confirm Password')
+	fath = StringField('Father\'s Name')
+	school = StringField('School')
 
 
 class UploadForm(FlaskForm):
@@ -212,20 +214,19 @@ def register():
 	if request.method == 'POST' and form.validate():
 		name = form.name.data 
 		email = form.email.data
-
 		#email verifier	
 		# data = client.get(email)
 		# if str(data.smtp_check) == 'False':
 		# 	flash('Invalid email, please provide a valid email address','danger')
 		# 	return render_template('register.html', form=form)
-
 		# send_confirmation_email(email)
-
 		username = form.username.data
 		password = form.password.data
+		fath = form.fath.data
+		school = form.school.data
 		# password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,email, password,confirmed) values(%s,%s,%s,%s,0)', (username,name, email, password))
+		cur.execute('INSERT INTO users(username,name,fathers_name ,school ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, email, password))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!  Please check your email to confirm your email address.', 'success')

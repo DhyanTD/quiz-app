@@ -1,4 +1,4 @@
-from flask import Flask,request, render_template, flash, redirect, url_for,session, logging, send_file
+from flask import Flask,request, render_template, flash, redirect, url_for,session, logging, send_file, Response
 from flask_mysqldb import MySQL 
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateTimeField, BooleanField, IntegerField, SelectField
 from flask_wtf import FlaskForm
@@ -23,6 +23,21 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError
 import socket
 from emailverifier import Client
+import cv2
+
+camera = cv2.VideoCapture(0)
+
+
+def gen_frames():
+    while True:
+        success, frame = camera.read()  # read the camera frame
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 app = Flask(__name__)
 app.secret_key= 'huihui'
@@ -209,6 +224,10 @@ def index():
 
 	except:
 		return render_template('index.html')
+
+@app.route('/video-feed')
+def video_feed():
+	return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/register', methods=['GET','POST'])

@@ -161,7 +161,7 @@ class RegisterForm(Form):
 	confirm = PasswordField('Confirm Password')
 	fath = StringField('Father\'s Name')
 	school = StringField('School')
-	stream = SelectField(u'Stream', choices=[(
+	stream = SelectField('Stream', choices=[(
 		'Science', 'Science'), ('Commerce', 'Commerce')])
 	
 
@@ -233,7 +233,7 @@ def register():
 		cur.execute('INSERT INTO users(username,name,fathers_name ,school, stream ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, stream, email, password))
 		mysql.connection.commit()
 		cur.close()
-		flash('Thanks for registering!  Please check your email to confirm your email address.', 'success')
+		flash('Thanks for registering!', 'success')
 		return redirect(url_for('login')) 
 		# change in login function to redirect to warning page
 

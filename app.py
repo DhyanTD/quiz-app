@@ -349,6 +349,7 @@ def create_test():
 @app.route('/give-test/<testid>', methods=['GET','POST'])
 @is_logged
 def test(testid):
+	# import person_and_phone
 	global duration,marked_ans
 	if request.method == 'GET':
 		try:

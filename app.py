@@ -24,20 +24,41 @@ from wtforms.validators import ValidationError
 import socket
 from emailverifier import Client
 import cv2
+from face_detector import get_face_detector, find_faces
+from face_landmarks import get_landmark_model, detect_marks
+import cv2
+import numpy as np
+# camera = cv2.VideoCapture(0)
+from camera import generate_frames
 
-camera = cv2.VideoCapture(0)
+# def gen_frames():
+#     while True:
+#         success, frame = camera.read()  # read the camera frame
+#         if not success:
+#             break
+#         else:
+#             ret, buffer = cv2.imencode('.jpg', frame)
+#             frame = buffer.tobytes()
+#             yield (b'--frame\r\n'
+#                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+# face_model = get_face_detector()
+# landmark_model = get_landmark_model()
+# left = [36, 37, 38, 39, 40, 41]
+# right = [42, 43, 44, 45, 46, 47]
+	# while True:
+	# 	cap = cv2.VideoCapture(0)
+	# 	ret, img = cap.read()
+	# 	thresh = img.copy()
 
+	# 	cv2.namedWindow('image')
+	# 	kernel = np.ones((9, 9), np.uint8)
+		# ret, buffer = cv2.imencode('.jpg',img) 
+		# import eye_tracker
+	
+   
+####################################################
 
-def gen_frames():
-    while True:
-        success, frame = camera.read()  # read the camera frame
-        if not success:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+####################################################
 
 app = Flask(__name__)
 app.secret_key= 'huihui'
@@ -225,9 +246,9 @@ def index():
 	except:
 		return render_template('index.html')
 
-@app.route('/video-feed')
-def video_feed():
-	return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/video-feed')
+# def video_feed():
+# 	return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -717,6 +738,9 @@ def control_singnup():
 def control_admin():
 	return render_template('admin.html')
 
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
 	app.run(debug=True)

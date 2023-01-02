@@ -29,7 +29,14 @@ from face_landmarks import get_landmark_model, detect_marks
 import cv2
 import numpy as np
 # camera = cv2.VideoCapture(0)
-from camera import generate_frames
+from cameracopy import generate_frames
+import cv2
+import numpy as np
+import math
+from face_detector import get_face_detector, find_faces
+from face_landmarks import get_landmark_model, detect_marks
+import temp
+import camera
 
 # def gen_frames():
 #     while True:
@@ -738,9 +745,45 @@ def control_singnup():
 def control_admin():
 	return render_template('admin.html')
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+import cv2
+import numpy as np
+import math
+from face_detector import get_face_detector, find_faces
+from face_landmarks import get_landmark_model, detect_marks
+import base64
+
+
+def data_init(imgData):
+    nparr = np.frombuffer(base64.b64decode(imgData), np.uint8)
+    img = cv2.imdecode(nparr, cv2.COLOR_BGR2GRAY)
+    face_model = get_face_detector()
+    landmark_model = get_landmark_model()
+    # ret, img = cap.read()
+    size = img.shape
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+    # 3D model points.
+    model_points = np.array([
+                                (0.0, 0.0, 0.0),             # Nose tip
+                                (0.0, -330.0, -65.0),        # Chin
+                                (-225.0, 170.0, -135.0),     # Left eye left corner
+                                (225.0, 170.0, -135.0),      # Right eye right corne
+                                (-150.0, -150.0, -125.0),    # Left Mouth corner
+                                (150.0, -150.0, -125.0)      # Right mouth corner
+                            ])
+    # Camera internals
+    focal_length = size[1]
+    center = (size[1]/2, size[0]/2)
+    camera_matrix = np.array(
+                             [[focal_length, 0, center[0]],
+                             [0, focal_length, center[1]],
+                             [0, 0, 1]], dtype = "double"
+                             )
+
+@app.route('/video_feed', methods=['GET','POST'])
+def video_feed():
+	if request.method == "POST":
+		imgData = request.form['data[imgData]']
+		proctorData = camera.get_frame(imgData)
 if __name__ == "__main__":
 	app.run(debug=True)

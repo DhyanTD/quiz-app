@@ -101,11 +101,90 @@
       <small>Copyright &copy; ExamBuzz</small>
     </div>
 </footer> -->
-<img src="{{ url_for('video_feed') }}" width="50%">
-    
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<!-- <img src="{{ url_for('video_feed') }}" width="50%"> -->
+
+<video id="stream" width="370" height="320">
+	<canvas id="capture" width="370" height="320">
+	</canvas>
+</video>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
- 
+
+
+<script>
+
+	var stream = document.getElementById("stream");
+	var capture = document.getElementById("capture");
+	var cameraStream = null;
+	var array = null;
+	var values = 0;
+	var length = null;
+
+	function startStreaming() {
+
+			var mediaSupport = 'mediaDevices' in navigator;
+
+			if (mediaSupport && null == cameraStream) {
+
+				navigator.mediaDevices.getUserMedia({ video: true })
+					.then(function (mediaStream) {
+
+						cameraStream = mediaStream;
+
+						stream.srcObject = mediaStream;
+
+						stream.play();
+					})
+					.catch(function (err) {
+
+						console.log("Unable to access camera: " + err);
+					});
+			}
+			else {
+
+				alert('Your browser does not support media devices.');
+
+				return;
+			}
+		}
+
+	function captureSnapshot() {
+
+		if (null != cameraStream) {
+			var ctx = capture.getContext('2d');
+			// var img = new Image();
+			// ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+			// img.src = capture.toDataURL("image/png");
+			// img.width = 340;
+			var d1 = capture.toDataURL("image/png");
+			var res = d1.replace("data:image/png;base64,", "");
+			console.log(res)
+			// var average = values / length;
+
+			// console.log(average)
+			// console.log(Math.round(average - 40));
+
+			if (1) {
+				$.post("/video_feed", {
+					data: { 'imgData': res }
+				},
+					function (data) {
+						console.log(data);
+					});
+			}
+
+		}
+		setTimeout(captureSnapshot, 5000);
+
+	} 
+
+	window.onload = function()  {
+		startStreaming();
+		captureSnapshot();
+	}
+</script>
+
 </body>
 </html> 

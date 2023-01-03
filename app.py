@@ -785,6 +785,5 @@ def video_feed():
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
 		proctorData = camera.get_frame(imgData)
-		print(proctorData)
 if __name__ == "__main__":
 	app.run(debug=True)

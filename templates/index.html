@@ -155,18 +155,18 @@
 		if (null != cameraStream) {
 			var ctx = capture.getContext('2d');
 			var img = new Image();
-			// ctx.drawImage(stream, 0, 0, capture.width, capture.height);
-			// img.src = capture.toDataURL("image/png");
-			// img.width = 340;
+			ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+			img.src = capture.toDataURL("image/png");
+			img.width = 340;
 			var d1 = capture.toDataURL("image/png");
 			var res = d1.replace("data:image/png;base64,", "");
 
-			// var average = values / length;
+			var average = values / length;
 
-			// console.log(average)
-			// console.log(Math.round(average - 40));
+			console.log(average)
+			console.log(Math.round(average - 40));
 
-			if (1) {
+			if (average) {
 				$.post("/video_feed", {
 					data: { 'imgData': res }
 				},

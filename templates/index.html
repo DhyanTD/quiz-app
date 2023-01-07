@@ -103,8 +103,8 @@
 </footer> -->
 <!-- <img src="{{ url_for('video_feed') }}" width="50%"> -->
 
-<video id="stream" width="370" height="320">
-	<canvas id="capture" width="370" height="320">
+<video id="stream" width="300" height="300">
+	<canvas id="capture" width="300" height="300">
 	</canvas>
 </video>
 
@@ -125,6 +125,9 @@
 	function startStreaming() {
 
 			var mediaSupport = 'mediaDevices' in navigator;
+			navigator.getUserMedia = navigator.getUserMedia ||
+    		navigator.webkitGetUserMedia ||
+    		navigator.mozGetUserMedia;
 
 			if (mediaSupport && null == cameraStream) {
 
@@ -149,17 +152,28 @@
 				return;
 			}
 		}
-
+		function stopStreaming() {
+  
+  if( null != cameraStream ) {
+	var track = cameraStream.getTracks()[ 0 ];
+	track.stop();
+	stream.load();
+	cameraStream = null;
+  }
+}
 	function captureSnapshot() {
-
+		var width=320;
+		var height=320;
 		if (null != cameraStream) {
 			var ctx = capture.getContext('2d');
-			// var img = new Image();
-			// ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+			var img = new Image();
+			ctx.drawImage(stream, 0, 0, width,height);
 			// img.src = capture.toDataURL("image/png");
 			// img.width = 340;
 			var d1 = capture.toDataURL("image/png");
+			// var res = capture.toDataURL("image/webp");
 			var res = d1.replace("data:image/png;base64,", "");
+			// var res =res1.toDataURL();
 			console.log(res)
 			// var average = values / length;
 
@@ -168,15 +182,14 @@
 
 			if (1) {
 				$.post("/video_feed", {
-					data: { 'imgData': res }
-				},
+					data: { 'imgData': res }},
 					function (data) {
 						console.log(data);
 					});
 			}
 
 		}
-		setTimeout(captureSnapshot, 5000);
+		setTimeout(captureSnapshot, 9000);
 
 	} 
 

@@ -24,48 +24,10 @@ from wtforms.validators import ValidationError
 import socket
 from emailverifier import Client
 import cv2
-from face_detector import get_face_detector, find_faces
-from face_landmarks import get_landmark_model, detect_marks
-import cv2
-import numpy as np
-# camera = cv2.VideoCapture(0)
-from cameracopy import generate_frames
-import cv2
 import numpy as np
 import math
-from face_detector import get_face_detector, find_faces
-from face_landmarks import get_landmark_model, detect_marks
-import temp
-import camera
+from proctoring import get_analysis, yolov3_model_v3_path
 
-# def gen_frames():
-#     while True:
-#         success, frame = camera.read()  # read the camera frame
-#         if not success:
-#             break
-#         else:
-#             ret, buffer = cv2.imencode('.jpg', frame)
-#             frame = buffer.tobytes()
-#             yield (b'--frame\r\n'
-#                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-# face_model = get_face_detector()
-# landmark_model = get_landmark_model()
-# left = [36, 37, 38, 39, 40, 41]
-# right = [42, 43, 44, 45, 46, 47]
-	# while True:
-	# 	cap = cv2.VideoCapture(0)
-	# 	ret, img = cap.read()
-	# 	thresh = img.copy()
-
-	# 	cv2.namedWindow('image')
-	# 	kernel = np.ones((9, 9), np.uint8)
-		# ret, buffer = cv2.imencode('.jpg',img) 
-		# import eye_tracker
-	
-   
-####################################################
-
-####################################################
 
 app = Flask(__name__)
 app.secret_key= 'huihui'
@@ -240,7 +202,7 @@ class TestForm(Form):
 	test_id = StringField('Test ID')
 	password = PasswordField('Test Password')
 
-
+ddd=[]
 @app.route('/')
 def index():
 	try:
@@ -251,11 +213,8 @@ def index():
 			return redirect(url_for('control_admin'))
 
 	except:
+		flash(ddd,'danger')
 		return render_template('index.html')
-
-# @app.route('/video-feed')
-# def video_feed():
-# 	return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -556,8 +515,6 @@ def check_result(username, testid):
 	else:
 		return redirect(url_for('dashboard'))
 
-#tests==dict in tuple
-
 def neg_marks(username,testid):
 	cur=mysql.connection.cursor()
 	results = cur.execute("select marks,q.qid as qid, \
@@ -746,44 +703,14 @@ def control_admin():
 	return render_template('admin.html')
 
 
-import cv2
-import numpy as np
-import math
-from face_detector import get_face_detector, find_faces
-from face_landmarks import get_landmark_model, detect_marks
-import base64
-
-
-def data_init(imgData):
-    nparr = np.frombuffer(base64.b64decode(imgData), np.uint8)
-    img = cv2.imdecode(nparr, cv2.COLOR_BGR2GRAY)
-    face_model = get_face_detector()
-    landmark_model = get_landmark_model()
-    # ret, img = cap.read()
-    size = img.shape
-    font = cv2.FONT_HERSHEY_SIMPLEX 
-    # 3D model points.
-    model_points = np.array([
-                                (0.0, 0.0, 0.0),             # Nose tip
-                                (0.0, -330.0, -65.0),        # Chin
-                                (-225.0, 170.0, -135.0),     # Left eye left corner
-                                (225.0, 170.0, -135.0),      # Right eye right corne
-                                (-150.0, -150.0, -125.0),    # Left Mouth corner
-                                (150.0, -150.0, -125.0)      # Right mouth corner
-                            ])
-    # Camera internals
-    focal_length = size[1]
-    center = (size[1]/2, size[0]/2)
-    camera_matrix = np.array(
-                             [[focal_length, 0, center[0]],
-                             [0, focal_length, center[1]],
-                             [0, 0, 1]], dtype = "double"
-                             )
-
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
-		proctorData = camera.get_frame(imgData)
-if __name__ == "__main__":
-	app.run(debug=True)
+		# proctorData = camera.get_frame(imgData)
+		proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
+		print(proctorData)
+		
+
+if __name__ == '__main__':
+    app.run(debug=False, host="192.168.42.144")

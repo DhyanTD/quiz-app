@@ -702,15 +702,18 @@ def control_singnup():
 def control_admin():
 	return render_template('admin.html')
 
+import camera
 
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
-		proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
+		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
+		proctorData = camera.get_frame(imgData)
 		print(proctorData)
-		
+	return render_template('index.html')
 
+	
 if __name__ == '__main__':
     app.run(debug=False, host="0.0.0.0")

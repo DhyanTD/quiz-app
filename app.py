@@ -713,4 +713,4 @@ def video_feed():
 		
 
 if __name__ == '__main__':
-    app.run(debug=False, host="192.168.42.144")
+    app.run(debug=False, host="0.0.0.0")

@@ -23,3 +23,10 @@ socket          = /var/run/mysqld/mysqld.sock
 datadir         = /var/lib/mysql
 log-error       = /var/log/mysql/error.
 '''
+
+
+
+
+install :
+$ apt-get install ffmpeg libsm6 libxext6  -y
+$ sudo apt-get install default-libmysqlclient-dev

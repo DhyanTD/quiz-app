@@ -270,5 +270,5 @@ var make_array = function() {
 }
 
 window.addEventListener('blur', function() { 
-    this.window.alert('warning! : do not shift tabs!!!')
+    this.window.alert('❌ warning ❌ : Do not change tabs or window! we are monitoring')
 });

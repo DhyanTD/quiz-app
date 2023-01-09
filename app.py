@@ -714,8 +714,10 @@ def video_feed():
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		proctorData = camera.get_frame(imgData)
 		print(proctorData)
+		flash('Thanks for registering!', 'success')
 	return render_template('index.html')
 
 	
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0")
+    # app.run(debug=False, host="0.0.0.0")
+    app.run(debug=False)

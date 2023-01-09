@@ -28,7 +28,6 @@ import numpy as np
 import math
 from proctoring import get_analysis, yolov3_model_v3_path
 
-
 app = Flask(__name__)
 app.secret_key= 'huihui'
 
@@ -202,7 +201,8 @@ class TestForm(Form):
 	test_id = StringField('Test ID')
 	password = PasswordField('Test Password')
 
-ddd=[]
+ddd={}
+ddd['cheating'] = False
 @app.route('/')
 def index():
 	try:
@@ -213,7 +213,10 @@ def index():
 			return redirect(url_for('control_admin'))
 
 	except:
-		flash(ddd,'danger')
+		# flash(ddd,'danger')
+		if(ddd['cheating'] == True):
+			flash('isfduisfdguisfdhui', 'danger')
+			ddd['cheating'] = False
 		return render_template('index.html')
 
 
@@ -226,7 +229,6 @@ def register():
 		#email verifier	
 		# data = client.get(email)
 		# if str(data.smtp_check) == 'False':
-		# 	flash('Invalid email, please provide a valid email address','danger')
 		# 	return render_template('register.html', form=form)
 		# send_confirmation_email(email)
 		username = form.username.data
@@ -677,7 +679,6 @@ def control_singnup():
 		#email verifier	
 		# data = client.get(email)
 		# if str(data.smtp_check) == 'False':
-		# 	flash('Invalid email, please provide a valid email address','danger')
 		# 	return render_template('register.html', form=form)
 
 		# send_confirmation_email(email)
@@ -704,16 +705,25 @@ def control_admin():
 
 import camera
 
+@app.route('/disp')
+def disp():
+	print(ddd)
+	flash('kitne log hein bhaii','danger')
+	return redirect(url_for('video_feed'))
+
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
-		proctorData = camera.get_frame(imgData)
-		print(proctorData)
-		if proctorData['person_status'] == 2:
-			flash('Screen tuula!', 'danger')
+		ddd = camera.get_frame(imgData)
+		if ddd['person_status'] == 2:
+			ddd['cheating'] = True
+			return redirect(url_for('index'))
+		print(ddd)
+		# if proctorData['person_status'] == 2:
+		# 	flash('Screen tuula!', 'danger')
 	return render_template('index.html')
 
 	

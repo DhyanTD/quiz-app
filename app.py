@@ -32,9 +32,10 @@ app = Flask(__name__)
 app.secret_key= 'huihui'
 
 #Config MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_HOST'] = '139.59.33.56'
+app.config['MYSQL_USER'] = 'ajpuc'
+app.config['MYSQL_PASSWORD'] = 'ajpuc123@Kvg'
+app.config['MYSQL_PORT'] = 3306
 app.config['MYSQL_DB'] = 'flask'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -203,6 +204,10 @@ class TestForm(Form):
 
 ddd={}
 ddd['cheating'] = False
+
+def flashing():
+	flash('uisfisfdsfduilsfda', 'success')
+
 @app.route('/')
 def index():
 	try:
@@ -215,8 +220,10 @@ def index():
 	except:
 		# flash(ddd,'danger')
 		if(ddd['cheating'] == True):
-			flash('isfduisfdguisfdhui', 'danger')
+			flashing()
 			ddd['cheating'] = False
+			return redirect(url_for('video_feed'))
+		# flashing()
 		return render_template('index.html')
 
 
@@ -718,15 +725,15 @@ def video_feed():
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
-		if ddd['person_status'] == 2:
-			ddd['cheating'] = True
-			return redirect(url_for('index'))
+		# if ddd['person_status'] == 2:
+		# 	ddd['cheating'] = True
+		# 	return redirect(url_for('index'))
 		print(ddd)
 		# if proctorData['person_status'] == 2:
 		# 	flash('Screen tuula!', 'danger')
-	return render_template('index.html')
+	return render_template('quiz.html')
 
 	
 if __name__ == '__main__':
-    # app.run(debug=False, host="0.0.0.0")
-    app.run(debug=False)
+    app.run(debug=False, host="0.0.0.0")
+    # app.run(debug=False)

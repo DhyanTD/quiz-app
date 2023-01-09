@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2022 at 10:31 AM
+-- Generation Time: Jan 09, 2023 at 10:14 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -423,13 +423,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `fathers_name`, `school`, `stream`, `email`, `password`, `register_time`, `confirmed`, `u_type`) VALUES
-(12, 'vivek', 'Vivek Kairi', NULL, NULL, NULL, 'vivekkairi30oct@gmail.com', '$5$rounds=535000$Sd1oGEHU/I0D3lHS$CWLVUKx2pdm2Z2UOmrrNz2vJNjOv48aUSeoOh1JDi2D', '2019-10-09 06:37:43', 1, 1),
-(13, 'vivekkairi', 'Nikhil', NULL, NULL, NULL, 'thewirejunction@gmail.com', '$5$rounds=535000$MOof29q4rcO7aEVZ$f8niHlvAFClsatnSALe6LrOdCcUORsxdBHFxl0MDBQ1', '2019-10-09 08:02:07', 1, 1),
-(14, 'nikhil', 'Nikhil', NULL, NULL, NULL, 'nmkhairnar@gmail.com', '$5$rounds=535000$6cXJnMENkIEMsgj2$xK4Mv0Icf630VZaFMlX8QrRDGcPNS9btsTURaPqZ6b9', '2019-10-09 09:46:24', 1, 1),
 (15, 'jeevan', 'Jeevan P Rai', NULL, NULL, NULL, 'jeeevanraisonangeri@gmail.com', 'admin123', '2022-12-15 10:11:12', 0, 1),
 (16, 'jeev', 'Jeevan P Rai', NULL, NULL, NULL, 'jeeevanraisonangeri@gmail.com', 'admin123', '2022-12-15 16:25:45', 0, 2),
 (17, 'Asur', 'Asur', NULL, NULL, NULL, 'asur@gmail.com', 'admin1234', '2022-12-16 06:17:04', 0, 1),
-(18, 'abhi', 'abhijna', NULL, NULL, NULL, 'abc@ggg.com', 'abhi22394', '2022-12-16 07:16:57', 0, 1);
+(18, 'abhi', 'abhijna', NULL, NULL, NULL, 'abc@ggg.com', 'abhi22394', '2022-12-16 07:16:57', 0, 1),
+(19, '7618752850', 'new name', 'father', 'school', NULL, 'email@gmail.com', 'admin123', '2022-12-24 09:41:26', 0, 1),
+(27, '1111111111', 'Jeevan P Rai', 'father', 'school', 'Science', 'jeeevanraisonangeri@gmail.com', 'admin123', '2022-12-25 05:50:40', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -450,7 +449,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

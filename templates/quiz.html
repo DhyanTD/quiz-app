@@ -45,7 +45,23 @@
       </li>
     </ul>
   </div>
+
+  <video id="stream" width="300" height="300">
+    <canvas id="capture" width="300" height="300">
+    </canvas>
+  </video>
+
 </footer></div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
 
 <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
@@ -59,5 +75,94 @@
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 </script>
+
+
+<script>
+
+  var stream = document.getElementById("stream");
+  var capture = document.getElementById("capture");
+  var cameraStream = null;
+  var array = null;
+  var values = 0;
+  var length = null;
+
+  function startStreaming() {
+
+    var mediaSupport = 'mediaDevices' in navigator;
+    navigator.getUserMedia = navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia;
+
+    if (mediaSupport && null == cameraStream) {
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (mediaStream) {
+
+          cameraStream = mediaStream;
+
+          stream.srcObject = mediaStream;
+
+          stream.play();
+        })
+        .catch(function (err) {
+
+          console.log("Unable to access camera: " + err);
+        });
+    }
+    else {
+
+      alert('Your browser does not support media devices.');
+
+      return;
+    }
+  }
+  function stopStreaming() {
+
+    if (null != cameraStream) {
+      var track = cameraStream.getTracks()[0];
+      track.stop();
+      stream.load();
+      cameraStream = null;
+    }
+  }
+  function captureSnapshot() {
+    var width = 320;
+    var height = 320;
+    if (null != cameraStream) {
+      var ctx = capture.getContext('2d');
+      var img = new Image();
+      ctx.drawImage(stream, 0, 0, width, height);
+      // img.src = capture.toDataURL("image/png");
+      // img.width = 340;
+      var d1 = capture.toDataURL("image/png");
+      // var res = capture.toDataURL("image/webp");
+      var res = d1.replace("data:image/png;base64,", "");
+      // var res =res1.toDataURL();
+      console.log(res)
+      // var average = values / length;
+
+      // console.log(average)
+      // console.log(Math.round(average - 40));
+
+      if (1) {
+        $.post("/video_feed", {
+          data: { 'imgData': res }
+        },
+          function (data) {
+            console.log(data);
+          });
+      }
+
+    }
+    setTimeout(captureSnapshot, 9000);
+
+  }
+
+  window.onload = function () {
+    startStreaming();
+    captureSnapshot();
+  }
+</script>
+
 
 {% endblock %}

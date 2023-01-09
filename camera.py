@@ -339,21 +339,21 @@ def get_frame(imgData):
         if int(classes[0][i] == 0):
             count +=1
         if int(classes[0][i] == 67):
-            print('Mobile Phone detected')
+            # print('Mobile Phone detected')
             mob_status = 1
         else:
-            print('Not Mobile Phone detected')
+            # print('Not Mobile Phone detected')
             mob_status = 0
-        print(mob_status)
+        # print(mob_status)
 
     if count == 0:
-        print('No person detected')
+        # print('No person detected')
         person_status = 1
     elif count > 1: 
-        print('More than one person detected')
+        # print('More than one person detected')
         person_status = 2
     else:
-        print('Normal')
+        # print('Normal')
         person_status = 0 
 
     image = draw_outputs(image, (boxes, scores, classes, nums), class_names)
@@ -398,18 +398,18 @@ def get_frame(imgData):
                 
             if ang1 >= 48:
                 user_move1 = 2
-                print('Head down')
+                # print('Head down')
             elif ang1 <= -48:
                 user_move1 = 1
-                print('Head up')
+                # print('Head up')
             else:
                 user_move1 = 0
 
             if ang2 >= 48:
-                print('Head right')
+                # print('Head right')
                 user_move2 = 4
             elif ang2 <= -48:
-                print('Head left')
+                # print('Head left')
                 user_move2 = 3
             else:
                 user_move2 = 0
@@ -425,20 +425,20 @@ def get_frame(imgData):
 
     if gaze.is_blinking():
         eye_movements = 1
-        print("Blinking")
+        # print("Blinking")
     elif gaze.is_right():
         eye_movements = 4
-        print("Looking right")
+        # print("Looking right")
     elif gaze.is_left():
         eye_movements = 3
-        print("Looking left")
+        # print("Looking left")
     elif gaze.is_center():
         eye_movements = 2
-        print("Looking center")
+        # print("Looking center")
     else:
         eye_movements = 0
-        print("Not found!")
-    print(eye_movements)
+        # print("Not found!")
+    # print(eye_movements)
 
     proctorDict = dict()  
     # proctorDict['jpg_as_text'] = jpg_as_text

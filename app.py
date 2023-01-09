@@ -203,7 +203,7 @@ class TestForm(Form):
 	password = PasswordField('Test Password')
 
 ddd={}
-ddd['cheating'] = 0
+cheating = 0
 
 def flashing():
 	flash('uisfisfdsfduilsfda', 'success')
@@ -219,9 +219,9 @@ def index():
 
 	except:
 		# flash(ddd,'danger')
-		# if(ddd['cheating'] == True):
+		# if(cheating == True):
 		# 	flashing()
-		# 	ddd['cheating'] = False
+		# 	cheating = False
 		# 	return redirect(url_for('video_feed'))
 		# flashing()
 		return render_template('index.html')
@@ -402,7 +402,7 @@ def test(testid):
 			except:
 				pass
 		else:
-			trust = 100-ddd['cheating']			
+			trust = 100-cheating			
 			cur.execute('UPDATE studenttestinfo set completed=1,time_left=sec_to_time(0),trust_score=%s where test_id = %s and username = %s', (trust, testid, session['username']))
 			mysql.connection.commit()
 			cur.close()
@@ -721,28 +721,33 @@ def disp():
 
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
+	# cheating=0
+	global cheating
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
+	
+		
 		try:
-			if (ddd['mob_status'] and ddd['mob_status']==1):
-				ddd['cheating'] += 1
-			elif (ddd['person_status'] and ddd['person_status']==2):
-				ddd['cheating'] += 1
-			elif (ddd['user_move1'] and ddd['user_move1']!=0):
-				ddd['cheating'] += 1
-			elif (ddd['user_move2'] and ddd['user_move2']!=0):
-				ddd['cheating'] += 1
-			elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
-				ddd['cheating'] += 1
+			if (ddd['mob_status']==1):
+				cheating += 1
+			elif (ddd['person_status']==2):
+				cheating += 1
+			elif (ddd['user_move1']!=0):
+				cheating += 1
+			elif (ddd['user_move2']!=0):
+				cheating += 1
+			elif (ddd['eye_movements']!=1):
+				cheating += 1
 		except:
 			pass
 		# if ddd['person_status'] == 2:
-		# 	ddd['cheating'] = True
+		# 	cheating = True
 		# 	return redirect(url_for('index'))
 		print(ddd)
+		print(cheating)
 		# if proctorData['person_status'] == 2:
 		# 	flash('Screen tuula!', 'danger')
 	return render_template('quiz.html')
@@ -750,4 +755,4 @@ def video_feed():
 	
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
-    # app.run(debug=False)
+    # app.run(debug=True)

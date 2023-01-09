@@ -202,7 +202,11 @@ class TestForm(Form):
 	password = PasswordField('Test Password')
 
 ddd={}
-ddd['cheating'] = False
+cheating = 0
+
+def flashing():
+	flash('uisfisfdsfduilsfda', 'success')
+
 @app.route('/')
 def index():
 	try:
@@ -214,9 +218,11 @@ def index():
 
 	except:
 		# flash(ddd,'danger')
-		if(ddd['cheating'] == True):
-			flash('isfduisfdguisfdhui', 'danger')
-			ddd['cheating'] = False
+		# if(cheating == True):
+		# 	flashing()
+		# 	cheating = False
+		# 	return redirect(url_for('video_feed'))
+		# flashing()
 		return render_template('index.html')
 
 
@@ -389,13 +395,14 @@ def test(testid):
 		elif flag=='time':
 			time_left = request.form['time']
 			try:
-				cur.execute('UPDATE studentTestInfo set time_left=SEC_TO_TIME(%s) where test_id = %s and username = %s and completed=0', (time_left, testid, session['username']))
+				cur.execute('UPDATE studenttestinfo set time_left=SEC_TO_TIME(%s) where test_id = %s and username = %s and completed=0', (time_left, testid, session['username']))
 				mysql.connection.commit()
 				cur.close()
 			except:
 				pass
-		else:			
-			cur.execute('UPDATE studentTestInfo set completed=1,time_left=sec_to_time(0) where test_id = %s and username = %s', (testid, session['username']))
+		else:
+			trust = 100-cheating			
+			cur.execute('UPDATE studenttestinfo set completed=1,time_left=sec_to_time(0),trust_score=%s where test_id = %s and username = %s', (trust, testid, session['username']))
 			mysql.connection.commit()
 			cur.close()
 			flash("Test submitted successfully", 'info')
@@ -405,7 +412,7 @@ def test(testid):
 @app.route("/give-test", methods = ['GET', 'POST'])
 @is_logged
 def give_test():
-	global duration, marked_ans	
+	global duration, marked_ans
 	form = TestForm(request.form)
 	if request.method == 'POST' and form.validate():
 		test_id = form.test_id.data
@@ -425,7 +432,7 @@ def give_test():
 				now = now.strftime("%Y-%m-%d %H:%M:%S")
 				now = datetime.strptime(now,"%Y-%m-%d %H:%M:%S")
 				if datetime.strptime(start,"%Y-%m-%d %H:%M:%S") < now and datetime.strptime(end,"%Y-%m-%d %H:%M:%S") > now:
-					results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studentTestInfo where username = %s and test_id = %s', (session['username'], test_id))
+					results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studenttestinfo where username = %s and test_id = %s', (session['username'], test_id))
 					if results > 0:
 						results = cur.fetchone()
 						is_completed = results['completed']
@@ -445,9 +452,9 @@ def give_test():
 							flash('Test already given', 'success')
 							return redirect(url_for('give_test'))
 					else:
-						cur.execute('INSERT into studentTestInfo (username, test_id,time_left) values(%s,%s,SEC_TO_TIME(%s))', (session['username'], test_id, duration))
+						cur.execute('INSERT into studenttestinfo (username, test_id,time_left) values(%s,%s,SEC_TO_TIME(%s))', (session['username'], test_id, duration))
 						mysql.connection.commit()
-						results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studentTestInfo where username = %s and test_id = %s', (session['username'], test_id))
+						results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studenttestinfo where username = %s and test_id = %s', (session['username'], test_id))
 						if results > 0:
 							results = cur.fetchone()
 							is_completed = results['completed']
@@ -589,7 +596,7 @@ def tests_given(username):
 def student_results(username, testid):
 	if username == session['username']:
 		cur = mysql.connection.cursor()
-		results = cur.execute('select users.name as name,users.username as username,test_id from studentTestInfo,users where test_id = %s and completed = 1 and studentTestInfo.username=users.username ', [testid])
+		results = cur.execute('select users.name as name,users.username as username,test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
 		results = cur.fetchall()
 		final = []
 		count = 1
@@ -686,11 +693,9 @@ def control_singnup():
 		username = form.username.data
 		password = form.password.data
 		u_type = 2
-		confirmed = 0
 		# password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,%s,%s)', (username,name, email, password,confirmed, u_type))
-		# cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values('username','name', 'email', 'password', 0, 'u_type')')
+		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,0,%s)', (username,name, email, password, u_type))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!', 'success')
@@ -715,20 +720,38 @@ def disp():
 
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
+	# cheating=0
+	global cheating
 	if request.method == "POST":
 		imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
-		if ddd['person_status'] == 2:
-			ddd['cheating'] = True
-			return redirect(url_for('index'))
+	
+		
+		try:
+			if (ddd['mob_status']==1):
+				cheating += 1
+			elif (ddd['person_status']==2):
+				cheating += 1
+			elif (ddd['user_move1']!=0):
+				cheating += 1
+			elif (ddd['user_move2']!=0):
+				cheating += 1
+			elif (ddd['eye_movements']!=1):
+				cheating += 1
+		except:
+			pass
+		# if ddd['person_status'] == 2:
+		# 	cheating = True
+		# 	return redirect(url_for('index'))
 		print(ddd)
+		print(cheating)
 		# if proctorData['person_status'] == 2:
 		# 	flash('Screen tuula!', 'danger')
-	return render_template('index.html')
+	return render_template('quiz.html')
 
 	
 if __name__ == '__main__':
-    # app.run(debug=False, host="0.0.0.0")
+    # app.run(debug=True, host="0.0.0.0")
     app.run(debug=True)

@@ -205,7 +205,6 @@ class TestForm(Form):
 ddd=[]
 @app.route('/')
 def index():
-	flash('Thanks for registering!', 'success')
 	try:
 		if(session['logged_in'] == True and session['u_type'] == 1):
 			return redirect(url_for('dashboard'))
@@ -708,13 +707,13 @@ import camera
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
 	if request.method == "POST":
-		flash('dajklfkhflashdfklshdklfjshdaflkjasdhfkljsdaf')
 		imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		proctorData = camera.get_frame(imgData)
 		print(proctorData)
-		flash('Thanks for registering!', 'success')
+		if proctorData['person_status'] == 2:
+			flash('Screen tuula!', 'danger')
 	return render_template('index.html')
 
 	

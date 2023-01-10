@@ -10,7 +10,9 @@
         <tr>
             <th scope="col">Sr No</th>
             <th scope="col">Name</th>
+            <th scope="col">Phone Number</th>
             <th scope="col">Marks</th>
+            <th scope="col">Trust Score</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,9 @@
             <tr>
                 <td>{{result['srno']}}</td>
                 <td>{{result['name']}}</td>
+                <td>{{result['username']}}</td>
                 <td>{{result['marks']}}</td>
+                <td>{{result['trust_score']}}&percnt;</td>
             </tr>
         {% endfor %}
         

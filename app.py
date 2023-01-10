@@ -680,7 +680,7 @@ def control():
 @app.route('/control-signup', methods=['GET','POST'])
 def control_singnup():
 	form = RegisterForm(request.form)
-	if request.method == 'POST' and form.validate():
+	if request.method == 'POST':
 		name = form.name.data 
 		email = form.email.data
 
@@ -692,11 +692,11 @@ def control_singnup():
 		# send_confirmation_email(email)
 
 		username = form.username.data
-		password = form.password.data
+		# password = form.password.data
 		u_type = 2
-		# password = str(form.password.data)
+		password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,0,%s)', (username,name, email, password, u_type))
+		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,%s,%s)', (username,name, email, password, 0, u_type))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!', 'success')

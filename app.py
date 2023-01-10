@@ -155,17 +155,17 @@ def doctodict(filepath):
 
 
 class RegisterForm(Form):
-	name = StringField('Name', [validators.Length(min=3, max=50)])
-	username = StringField('Phone Number', [validators.Length(min=4,max=25)])
+	name = StringField('Name', [validators.Length(min=3, max=50), validators.DataRequired()])
+	username = StringField('Phone Number', [validators.Length(min=4,max=25), validators.DataRequired()])
 	email = StringField('Email', [validators.Email()])
 	password = PasswordField('Password', [
-			validators.Regexp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", message="Password should contain min 8 characters including 1 letter and 1 number."),
+			validators.Regexp("^(?=.*(\d)*)(?=.*[a-z]*)(?=.*[a-zA-Z]*).{6,}$", message="Password should contain min 6 characters."),
 			validators.DataRequired(),
 			validators.EqualTo('confirm', message="Password do not match")
-		])
-	confirm = PasswordField('Confirm Password')
-	fath = StringField('Father\'s Name')
-	school = StringField('School')
+		], id='pass')
+	confirm = PasswordField('Confirm Password', [validators.DataRequired()])
+	fath = StringField('Father\'s Name', [validators.DataRequired()])
+	school = StringField('School', [validators.DataRequired()])
 	stream = SelectField('Stream', choices=[(
 		'Science', 'Science'), ('Commerce', 'Commerce')])
 	

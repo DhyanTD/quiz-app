@@ -2,6 +2,7 @@
 
 {%block head %}
 <link rel="stylesheet" href="static/register.css">
+<!-- <link rel="stylesheet" type="text/css" href="static/mylogin.css"> -->
 {% endblock %}
 
 {% block body %}
@@ -9,7 +10,7 @@
   {% from "includes/_formhelpers.html" import render_field %}
   <div class="row">
     <div class="col-sm">
-      <h1>Admin Register</h1>
+      <h1>Register</h1>
     </div>
   </div>
   <div class="login-box well">
@@ -21,19 +22,11 @@
         {{render_field(form.email, class_="form-control", placeholder="eg. john@gmail.com")}}
       </div>
       <div class="form-group">
-        {{render_field(form.username, class_="form-control", placeholder="eg. johnsmith")}}
+        {{render_field(form.username, class_="form-control", placeholder="eg. 9999999999")}}
       </div>
-      <!-- <div class="form-group">
-        {{render_field(form.fath, class_="form-control", placeholder="eg. johnsmith")}}
-      </div> -->
-      <!-- <div class="form-group">
-        {{render_field(form.school, class_="form-control", placeholder="eg. johnsmith")}}
-      </div> -->
-      <!-- <div class="form-group">
-        {{render_field(form.stream, class_="form-control")}}
-      </div> -->
       <div class="form-group">
-        {{render_field(form.password, class_="form-control", placeholder="eg. john@123")}}
+        {{render_field(form.password, class_="form-control", placeholder="eg. john@123")}} <span
+          class="fas fa-eye icon"></span>
       </div>
       <div class="form-group">
         {{render_field(form.confirm, class_="form-control", placeholder="eg. john@123")}}
@@ -48,4 +41,17 @@
   <br><br><br><br><br>
 </div>
 </div>
+
+<script>
+  var flag = true;
+  $('.icon').on('click', function () {
+    if (flag) {
+      $('#pass').prop('type', 'text');
+      flag = false;
+    } else {
+      $('#pass').prop('type', 'password');
+      flag = true;
+    }
+  }); 
+</script>
 {% endblock %}

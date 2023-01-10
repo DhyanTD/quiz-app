@@ -23,7 +23,13 @@ img {
 	padding: 30px;
 	border-radius: none;
 }
-
+@media(max-width:768px){
+	.mysec .col-3 {
+		padding: 0px;
+		padding-left: 3%;
+		border-radius: none;
+	}
+}
 .mybtn{
 	color: #fff;
 	box-shadow: 0 5px 10px rgba(0,0,0,0.3);

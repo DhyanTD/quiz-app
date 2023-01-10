@@ -44,8 +44,8 @@ app.config.update(
 	MAIL_SERVER='smtp.gmail.com',
 	MAIL_PORT=465,
 	MAIL_USE_SSL=True,
-	MAIL_USERNAME = 'dhyant65@gmail.com',
-	MAIL_PASSWORD = 'V4mJz9rz5E-my.B'
+	MAIL_USERNAME = '',
+	MAIL_PASSWORD = ''
 	)
 mail = Mail(app)
 
@@ -513,8 +513,7 @@ def check_result(username, testid):
 				results = cur.execute('select explanation,q,a,b,c,d,marks,q.qid as qid, \
 					q.ans as correct, ifnull(s.ans,0) as marked from questions q left join \
 					students s on  s.test_id = q.test_id and s.test_id = %s \
-					and s.username = %s and s.qid = q.qid group by q.qid \
-					order by LPAD(lower(q.qid),10,0) asc', (testid, username))
+					and s.username = %s and s.qid = q.qid', (testid, username))
 				if results > 0:
 					results = cur.fetchall()
 					return render_template('tests_result.html', results= results)
@@ -564,9 +563,7 @@ def totmarks(username,tests):
 
 
 def marks_calc(username,testid):
-	# print("hello")
-	# if username == session['username']:
-	# print("hello")
+	# if username == session['username']
 	cur = mysql.connection.cursor()
 	results=cur.execute("select neg_mark from teachers where test_id=%s",[testid])
 	results=cur.fetchone()
@@ -575,7 +572,6 @@ def marks_calc(username,testid):
 	else:
 		results = cur.execute("select sum(marks) as totalmks from students s,questions q where s.username=%s and s.test_id=%s and s.qid=q.qid and s.test_id=q.test_id and s.ans=q.ans", (username, testid))
 		results = cur.fetchone()
-			
 		if str(results['totalmks']) == 'None':
 			results['totalmks'] = 0
 		return results['totalmks']
@@ -599,20 +595,18 @@ def tests_given(username):
 def student_results(username, testid):
 	if username == session['username']:
 		cur = mysql.connection.cursor()
-		results = cur.execute('select users.name as name,users.username as username,test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
+		results = cur.execute('select users.name as name,users.username as username, trust_score, test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
 		results = cur.fetchall()
 		final = []
 		count = 1
-		score=0
 		for user in results:
 			score = marks_calc(user['username'], testid)
-			# print(score)
 			user['srno'] = count
 			user['marks'] = score
-			final.append([count, user['name'], score])
+			final.append([count, user['name'], score, user['trust_score'], user['username']])
 			count+=1
 		if request.method =='GET':
-			results = sorted(results, key=operator.itemgetter('marks'))
+			results = sorted(results, key=operator.itemgetter('marks'), reverse=True)
 			return render_template('student_results.html', data=results)
 		else:
 			fields = ['Sr No', 'Name', 'Marks']
@@ -684,7 +678,7 @@ def control():
 @app.route('/control-signup', methods=['GET','POST'])
 def control_singnup():
 	form = RegisterForm(request.form)
-	if request.method == 'POST' and form.validate():
+	if request.method == 'POST':
 		name = form.name.data 
 		email = form.email.data
 
@@ -696,11 +690,11 @@ def control_singnup():
 		# send_confirmation_email(email)
 
 		username = form.username.data
-		password = form.password.data
+		# password = form.password.data
 		u_type = 2
-		# password = str(form.password.data)
+		password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,email, password,u_type,confirmed) values(%s,%s,%s,%s,%s,0)', (username,name, email, password, u_type))
+		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,%s,%s)', (username,name, email, password, 0, u_type))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!', 'success')
@@ -732,18 +726,16 @@ def video_feed():
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
-	
-		
 		try:
-			if (ddd['mob_status']==1):
+			if (ddd['mob_status'] and ddd['mob_status']==1):
 				cheating += 1
-			elif (ddd['person_status']==2):
+			elif (ddd['person_status'] and ddd['person_status']==2):
 				cheating += 1
-			elif (ddd['user_move1']!=0):
+			elif (ddd['user_move1'] and ddd['user_move1']!=0):
 				cheating += 1
-			elif (ddd['user_move2']!=0):
+			elif (ddd['user_move2'] and ddd['user_move2']!=0):
 				cheating += 1
-			elif (ddd['eye_movements']!=1):
+			elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
 				cheating += 1
 		except:
 			pass
@@ -752,11 +744,12 @@ def video_feed():
 		# 	return redirect(url_for('index'))
 		print(ddd)
 		print(cheating)
+		flash('jhdsghdsgjsd','danger')
 		# if proctorData['person_status'] == 2:
 		# 	flash('Screen tuula!', 'danger')
 	return render_template('quiz.html')
 
 	
 if __name__ == '__main__':
-    # app.run(debug=True, host="0.0.0.0")
-    app.run(debug=True)
+    app.run(debug=True, host="192.168.0.106")
+    # app.run(debug=True)

@@ -564,18 +564,21 @@ def totmarks(username,tests):
 
 
 def marks_calc(username,testid):
-	if username == session['username']:
-		cur = mysql.connection.cursor()
-		results=cur.execute("select neg_mark from teachers where test_id=%s",[testid])
-		results=cur.fetchone()
-		if results['neg_mark']==1:
-			return neg_marks(username,testid) 
-		else:
-			results = cur.execute("select sum(marks) as totalmks from students s,questions q where s.username=%s and s.test_id=%s and s.qid=q.qid and s.test_id=q.test_id and s.ans=q.ans", (username, testid))
-			results = cur.fetchone()
-			if str(results['totalmks']) == 'None':
-				results['totalmks'] = 0
-			return results['totalmks']
+	# print("hello")
+	# if username == session['username']:
+	# print("hello")
+	cur = mysql.connection.cursor()
+	results=cur.execute("select neg_mark from teachers where test_id=%s",[testid])
+	results=cur.fetchone()
+	if results['neg_mark']==1:
+		return neg_marks(username,testid) 
+	else:
+		results = cur.execute("select sum(marks) as totalmks from students s,questions q where s.username=%s and s.test_id=%s and s.qid=q.qid and s.test_id=q.test_id and s.ans=q.ans", (username, testid))
+		results = cur.fetchone()
+			
+		if str(results['totalmks']) == 'None':
+			results['totalmks'] = 0
+		return results['totalmks']
 
 		
 @app.route('/<username>/tests-given')
@@ -600,14 +603,16 @@ def student_results(username, testid):
 		results = cur.fetchall()
 		final = []
 		count = 1
+		score=0
 		for user in results:
 			score = marks_calc(user['username'], testid)
+			print(score)
 			user['srno'] = count
 			user['marks'] = score
 			final.append([count, user['name'], score])
 			count+=1
 		if request.method =='GET':
-			results = sorted(results, key=operator.itemgetter('marks'))
+			# results = sorted(results, key=operator.itemgetter('marks'))
 			return render_template('student_results.html', data=results)
 		else:
 			fields = ['Sr No', 'Name', 'Marks']
@@ -695,7 +700,7 @@ def control_singnup():
 		u_type = 2
 		# password = str(form.password.data)
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,email, password,confirmed,u_type) values(%s,%s,%s,%s,0,%s)', (username,name, email, password, u_type))
+		cur.execute('INSERT INTO users(username,name,email, password,u_type,confirmed) values(%s,%s,%s,%s,%s,0)', (username,name, email, password, u_type))
 		mysql.connection.commit()
 		cur.close()
 		flash('Thanks for registering!', 'success')

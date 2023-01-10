@@ -270,5 +270,5 @@ var make_array = function() {
 }
 
 window.addEventListener('blur', function() { 
-    window.location.replace('/dashboard');
- });
+    this.window.alert('warning! : do not shift tabs!!!')
+});

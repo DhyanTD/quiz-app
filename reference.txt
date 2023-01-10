@@ -30,3 +30,7 @@ log-error       = /var/log/mysql/error.
 install :
 $ apt-get install ffmpeg libsm6 libxext6  -y
 $ sudo apt-get install default-libmysqlclient-dev
+
+
+kill process:
+$ sudo kill -9 `sudo lsof -t -i:5000`

@@ -396,13 +396,13 @@ def test(testid):
 		elif flag=='time':
 			time_left = request.form['time']
 			try:
-				cur.execute('UPDATE studentTestInfo set time_left=SEC_TO_TIME(%s) where test_id = %s and username = %s and completed=0', (time_left, testid, session['username']))
+				cur.execute('UPDATE studenttestinfo set time_left=SEC_TO_TIME(%s) where test_id = %s and username = %s and completed=0', (time_left, testid, session['username']))
 				mysql.connection.commit()
 				cur.close()
 			except:
 				pass
 		else:			
-			cur.execute('UPDATE studentTestInfo set completed=1,time_left=sec_to_time(0) where test_id = %s and username = %s', (testid, session['username']))
+			cur.execute('UPDATE studenttestinfo set completed=1,time_left=sec_to_time(0) where test_id = %s and username = %s', (testid, session['username']))
 			mysql.connection.commit()
 			cur.close()
 			flash("Test submitted successfully", 'info')
@@ -432,7 +432,7 @@ def give_test():
 				now = now.strftime("%Y-%m-%d %H:%M:%S")
 				now = datetime.strptime(now,"%Y-%m-%d %H:%M:%S")
 				if datetime.strptime(start,"%Y-%m-%d %H:%M:%S") < now and datetime.strptime(end,"%Y-%m-%d %H:%M:%S") > now:
-					results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studentTestInfo where username = %s and test_id = %s', (session['username'], test_id))
+					results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studenttestinfo where username = %s and test_id = %s', (session['username'], test_id))
 					if results > 0:
 						results = cur.fetchone()
 						is_completed = results['completed']
@@ -452,9 +452,9 @@ def give_test():
 							flash('Test already given', 'success')
 							return redirect(url_for('give_test'))
 					else:
-						cur.execute('INSERT into studentTestInfo (username, test_id,time_left) values(%s,%s,SEC_TO_TIME(%s))', (session['username'], test_id, duration))
+						cur.execute('INSERT into studenttestinfo (username, test_id,time_left) values(%s,%s,SEC_TO_TIME(%s))', (session['username'], test_id, duration))
 						mysql.connection.commit()
-						results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studentTestInfo where username = %s and test_id = %s', (session['username'], test_id))
+						results = cur.execute('SELECT time_to_sec(time_left) as time_left,completed from studenttestinfo where username = %s and test_id = %s', (session['username'], test_id))
 						if results > 0:
 							results = cur.fetchone()
 							is_completed = results['completed']
@@ -596,7 +596,7 @@ def tests_given(username):
 def student_results(username, testid):
 	if username == session['username']:
 		cur = mysql.connection.cursor()
-		results = cur.execute('select users.name as name,users.username as username,test_id from studentTestInfo,users where test_id = %s and completed = 1 and studentTestInfo.username=users.username ', [testid])
+		results = cur.execute('select users.name as name,users.username as username,test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
 		results = cur.fetchall()
 		final = []
 		count = 1
@@ -735,5 +735,5 @@ def video_feed():
 
 	
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
     # app.run(debug=False)

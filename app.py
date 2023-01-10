@@ -203,7 +203,7 @@ class TestForm(Form):
 	password = PasswordField('Test Password')
 
 ddd={}
-ddd['cheating'] = False
+ddd['cheating'] = 0
 
 def flashing():
 	flash('uisfisfdsfduilsfda', 'success')
@@ -219,10 +219,10 @@ def index():
 
 	except:
 		# flash(ddd,'danger')
-		if(ddd['cheating'] == True):
-			flashing()
-			ddd['cheating'] = False
-			return redirect(url_for('video_feed'))
+		# if(ddd['cheating'] == True):
+		# 	flashing()
+		# 	ddd['cheating'] = False
+		# 	return redirect(url_for('video_feed'))
 		# flashing()
 		return render_template('index.html')
 
@@ -401,8 +401,9 @@ def test(testid):
 				cur.close()
 			except:
 				pass
-		else:			
-			cur.execute('UPDATE studenttestinfo set completed=1,time_left=sec_to_time(0) where test_id = %s and username = %s', (testid, session['username']))
+		else:
+			trust = 100-ddd['cheating']			
+			cur.execute('UPDATE studenttestinfo set completed=1,time_left=sec_to_time(0),trust_score=%s where test_id = %s and username = %s', (trust, testid, session['username']))
 			mysql.connection.commit()
 			cur.close()
 			flash("Test submitted successfully", 'info')
@@ -412,7 +413,7 @@ def test(testid):
 @app.route("/give-test", methods = ['GET', 'POST'])
 @is_logged
 def give_test():
-	global duration, marked_ans	
+	global duration, marked_ans
 	form = TestForm(request.form)
 	if request.method == 'POST' and form.validate():
 		test_id = form.test_id.data
@@ -725,6 +726,19 @@ def video_feed():
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
+		try:
+			if (ddd['mob_status'] and ddd['mob_status']==1):
+				ddd['cheating'] += 1
+			elif (ddd['person_status'] and ddd['person_status']==2):
+				ddd['cheating'] += 1
+			elif (ddd['user_move1'] and ddd['user_move1']!=0):
+				ddd['cheating'] += 1
+			elif (ddd['user_move2'] and ddd['user_move2']!=0):
+				ddd['cheating'] += 1
+			elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
+				ddd['cheating'] += 1
+		except:
+			pass
 		# if ddd['person_status'] == 2:
 		# 	ddd['cheating'] = True
 		# 	return redirect(url_for('index'))

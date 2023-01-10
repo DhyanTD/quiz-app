@@ -514,8 +514,7 @@ def check_result(username, testid):
 				results = cur.execute('select explanation,q,a,b,c,d,marks,q.qid as qid, \
 					q.ans as correct, ifnull(s.ans,0) as marked from questions q left join \
 					students s on  s.test_id = q.test_id and s.test_id = %s \
-					and s.username = %s and s.qid = q.qid group by q.qid \
-					order by LPAD(lower(q.qid),10,0) asc', (testid, username))
+					and s.username = %s and s.qid = q.qid', (testid, username))
 				if results > 0:
 					results = cur.fetchall()
 					return render_template('tests_result.html', results= results)
@@ -608,7 +607,7 @@ def student_results(username, testid):
 			final.append([count, user['name'], score])
 			count+=1
 		if request.method =='GET':
-			# results = sorted(results, key=operator.itemgetter('marks'))
+			results = sorted(results, key=operator.itemgetter('marks'), reverse=True)
 			return render_template('student_results.html', data=results)
 		else:
 			fields = ['Sr No', 'Name', 'Marks']
@@ -728,18 +727,16 @@ def video_feed():
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
-	
-		
 		try:
-			if (ddd['mob_status']==1):
+			if (ddd['mob_status'] and ddd['mob_status']==1):
 				cheating += 1
-			elif (ddd['person_status']==2):
+			elif (ddd['person_status'] and ddd['person_status']==2):
 				cheating += 1
-			elif (ddd['user_move1']!=0):
+			elif (ddd['user_move1'] and ddd['user_move1']!=0):
 				cheating += 1
-			elif (ddd['user_move2']!=0):
+			elif (ddd['user_move2'] and ddd['user_move2']!=0):
 				cheating += 1
-			elif (ddd['eye_movements']!=1):
+			elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
 				cheating += 1
 		except:
 			pass
@@ -748,6 +745,7 @@ def video_feed():
 		# 	return redirect(url_for('index'))
 		print(ddd)
 		print(cheating)
+		flash('jhdsghdsgjsd','danger')
 		# if proctorData['person_status'] == 2:
 		# 	flash('Screen tuula!', 'danger')
 	return render_template('quiz.html')

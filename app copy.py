@@ -606,13 +606,13 @@ def student_results(username, testid):
 		score=0
 		for user in results:
 			score = marks_calc(user['username'], testid)
-			print(score)
+			# print(score)
 			user['srno'] = count
 			user['marks'] = score
 			final.append([count, user['name'], score])
 			count+=1
 		if request.method =='GET':
-			# results = sorted(results, key=operator.itemgetter('marks'))
+			results = sorted(results, key=operator.itemgetter('marks'))
 			return render_template('student_results.html', data=results)
 		else:
 			fields = ['Sr No', 'Name', 'Marks']

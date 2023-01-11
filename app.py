@@ -596,7 +596,7 @@ def tests_given(username):
 def student_results(username, testid):
 	if username == session['username']:
 		cur = mysql.connection.cursor()
-		results = cur.execute('select users.name as name,users.username as username,test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
+		results = cur.execute('select users.name as name,users.username as username, trust_score, test_id from studenttestinfo,users where test_id = %s and completed = 1 and studenttestinfo.username=users.username ', [testid])
 		results = cur.fetchall()
 		final = []
 		count = 1
@@ -604,7 +604,7 @@ def student_results(username, testid):
 			score = marks_calc(user['username'], testid)
 			user['srno'] = count
 			user['marks'] = score
-			final.append([count, user['name'], score])
+			final.append([count, user['name'], score, user['trust_score'], user['username']])
 			count+=1
 		if request.method =='GET':
 			results = sorted(results, key=operator.itemgetter('marks'), reverse=True)

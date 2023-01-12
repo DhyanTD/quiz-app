@@ -8,16 +8,16 @@
     bottom: 0;
   }
   #stream{
-      margin:1%; border:3px solid black; border: radius 8px; float: right;
+      margin:1%;margin-right: 5%; border:3px solid rgb(177, 177, 177); border: radius 8px; float: right;
     }
   @media(max-width:768px){
     #stream{
-      margin:1%; border:3px solid black; border: radius 8px; float: right;
+      margin:1%; border:3px solid rgb(177, 177, 177); border: radius 8px; float: right;
     }
   }
 </style>
 <div class="container">
-  <video id="stream" width="17%" height="17.5%" >
+  <video id="stream" width="125px" height="125px" >
     <canvas id="capture">
     </canvas>
   </video>
@@ -59,13 +59,13 @@
   }
   @media(max-width:768px){
     .dod{
-      margin: 5%; width: 30%;
+      margin: 0.5%; width: 30%;
     }
     .dud{
-      margin: 5%; width: 60%;
+      margin: 0.5%; width: 30%;
     }
     .ded{
-      margin: 5%; width: 90%;
+      margin: 0.5%; width: 90%;
     }
   }
 </style>
@@ -84,8 +84,8 @@
     <ul class="list-unstyled list-inline text-center py-2">
       <li class="list-inline-item">
         <button class="btn btn-primary btn-rounded dud" id="questions" >Questions</button>
-        <input type="button" value="Prev" id="prev" class="btn btn-primary btn-rounded dod" >
-        <input type="button" value="Next" id="next" class="btn btn-primary btn-rounded dod" >
+        <input type="button" value="Prev" id="prev" class="btn btn-primary btn-rounded dod" style="background-color: #f1f1f1;color: black;" >
+        <input type="button" value="Next" id="next" class="btn btn-primary btn-rounded dod" style="background-color: #04AA6D;color: white;" >
         <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded dud" >
         <button class="btn btn-primary btn-rounded dud" id="bookmark" >Bookmark</button>
         <div class="btn btn-success ded" id="finish" >Finish Test</div>

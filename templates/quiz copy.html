@@ -68,13 +68,21 @@
       margin: 1%; width: 30%;
     }
     .ded{
-      margin: 1%; width: 100%;
+      margin: 1%; width: 100%;margin-top:8%;
     }
     .dude{
       margin: 1%; width: 47%;
     }
   }
 </style>
+
+<style>
+  #overlay {
+    z-index: 100;
+    overflow: scroll;
+  }
+</style>
+
   <div id="overlay">
     <div class="container" id="question-list">
     </div>
@@ -86,10 +94,10 @@
       <li class="list-inline-item">
         <button class="btn btn-primary btn-rounded dud" id="questions" >Questions</button>
         <input type="button" value="&laquo; Prev" id="prev" class="btn btn-primary btn-rounded dod" style="background-color: #ddd;color: black; border: none;" >
-        <input type="button" value="Next &raquo;" id="next" class="btn btn-primary btn-rounded dod" style="background-color: #04AA6D;color: white;" >
+        <input type="button" value="Next &raquo;" id="next" class="btn btn-primary btn-rounded dod" style="background-color: #ddd;color: black; border: none;" >
         <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded dude" >
-        <button class="btn btn-primary btn-rounded dude" id="bookmark" style="background-color: #ca8d1b;" >Bookmark</button>
-        <div class="btn btn-success ded" id="finish" >Finish Test</div>
+        <button class="btn btn-primary btn-rounded dude" id="bookmark" style="background-color: #964B00;" >Bookmark</button>
+        <div class="btn btn-success ded" id="finish"  style="background-color: #008657">Finish Test</div>
       </li>
     </ul>
   </div>

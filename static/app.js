@@ -286,14 +286,12 @@ var make_array = function() {
     }
 }
 
-window.addEventListener('blur', function() { 
-    this.window.alert('❌ warning ❌ : Do not change tabs or window! we are monitoring')
-});
+// window.addEventListener('blur', function() { 
+//     this.window.alert('❌ warning ❌ : Do not change tabs or window! we are monitoring')
+// });
 
 
-
-
-const ava = ({ icon = 'success', toast = false, progressBar = true, text = null, timer = 4000, btnText = 'Okay', direction = 'rtl', position = 'top-right' }) => {
+const ava = ({ icon = 'success', toast = false, progressBar = true, text = null, timer =60000, btnText = 'Okay', direction = 'rtl', position = 'top-right' }) => {
     const modal = document.createElement('section');
     modal.setAttribute('class', 'ava-modal');
     document.body.appendChild(modal);
@@ -427,11 +425,17 @@ const ava = ({ icon = 'success', toast = false, progressBar = true, text = null,
         case 10000:
             new_timer_format = '10s';
             break;
+        case 60000:
+            new_timer_format = '60s';
+            break;
+        case 300000:
+            new_timer_format = '300s';
+            break;    
         default:
             new_timer_format = '4s';
     }
     if (timer > 10000) {
-        timer = 4000;
+        timer = 300000;
     }
     if (toast == true) {
         modal.style = 'background-color: rgba(0, 0, 0, 0);';
@@ -512,12 +516,12 @@ const ava = ({ icon = 'success', toast = false, progressBar = true, text = null,
 
     })
 }
-function danger() {
+window.addEventListener('blur', function() {
     ava({
         icon: 'danger',
-        text: 'This is a Danger Alert',
+        text: 'Warning! Do not Switch tabs/window. You are being monitored!',
         btnText: 'Okay',
         progressBar: true,
         toast: false,
     });
-}
+});

@@ -63,7 +63,7 @@ def send_async_email(app, msg):
 
 
 htmlbody='''
-Your account on <b>The Best</b> Quiz App was successfully created.
+Your account was successfully created.
 Please click the link below to confirm your email address and
 activate your account:
   
@@ -528,8 +528,7 @@ def neg_marks(username,testid):
 	results = cur.execute("select marks,q.qid as qid, \
 				q.ans as correct, ifnull(s.ans,0) as marked from questions q left join \
 				students s on  s.test_id = q.test_id and s.test_id = %s \
-				and s.username = %s and s.qid = q.qid group by q.qid \
-				order by LPAD(lower(q.qid),10,0) asc", (testid, username))
+				and s.username = %s and s.qid = q.qid ", (testid, username))
 	data=cur.fetchall()
 
 	sum=0.0
@@ -627,8 +626,7 @@ def questions(username, testid):
 			results = cur.execute('select explanation,q,a,b,c,d,marks,q.qid as qid, \
 				q.ans as correct, ifnull(s.ans,0) as marked from questions q left join \
 				students s on  s.test_id = q.test_id and s.test_id = %s \
-				and s.username = %s and s.qid = q.qid group by q.qid \
-				order by LPAD(lower(q.qid),10,0) asc', (testid, username))
+				and s.username = %s and s.qid = q.qid', (testid, username))
 			if results > 0:
 				results = cur.fetchall()
 				return render_template('disp_questions.html', results= results)

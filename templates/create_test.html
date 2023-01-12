@@ -43,6 +43,8 @@
       {{render_field(form.password, class="form-control", placeholder="Password")}}
     </div>
     <div class="form-group">
+    	{{form.hidden_tag()}}
+        {{render_field(form.doc, class="form-control-file")}}
     </div>
     <div class="form-check">
       <label for="show">Show Result after completion</label>

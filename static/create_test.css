@@ -3,6 +3,11 @@
     left: 20px;
 }
 
+.form-group {
+    margin: 2% 0%;
+    /* width: 96%; */
+}
+
 #heading{
     border-radius: 20px 20px 0px 0px;
     border: #6a63dd solid 5px;
@@ -14,9 +19,9 @@
 
  .login-box{
     width: 96%;
-    border: #6a63dd solid 5px;
+    border: #000000 solid 5px;
     padding-top: 2%;
-    border-radius: 0px 0px 20px 20px;
+    border-radius: 50px 0px 50px 0px;
     padding: 20px;
  }
 .container {
@@ -27,7 +32,9 @@
 h1{
     margin-top: 2%;
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
+    font-family: auto;
+    font-weight: bolder;
  }
 
 #heading,  .login-box{
@@ -37,14 +44,14 @@ h1{
 
 .footer {
     position: absolute;
-        bottom: -370px;
+        bottom: 0px;
 }
 
 @media(max-width:500px) {
 
     .footer {
             position: absolute;
-            bottom: -250px;
+            bottom: 0px;
         }
     
 }

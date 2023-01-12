@@ -8,7 +8,13 @@
     bottom: 0;
   }
 </style>
-
+<div class="container">
+  <video id="stream" width="20%" height="20.5%" style="margin:1%; border:3px solid black; border: radius 8px; float: right;">
+    <canvas id="capture">
+    </canvas>
+  </video>
+</div>
+<br><br><br>
 <div style="position:absolute; padding: 0px 10%;" onselectstart="return false">
   <script type="text/javascript"> var answers = "{{answers}}";</script>
   <div id="time">{{duration}}</div>
@@ -42,20 +48,15 @@
   <div class="container">
     <ul class="list-unstyled list-inline text-center py-2">
       <li class="list-inline-item">
-        <button class="btn btn-primary btn-rounded" id="questions" style="margin: 5%;">Questions</button>
-        <input type="button" value="Prev" id="prev" class="btn btn-primary btn-rounded" style="margin: 5%;">
-        <input type="button" value="Next" id="next" class="btn btn-primary btn-rounded" style="margin: 5%;">
-        <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded" style="margin: 5%;">
-        <button class="btn btn-primary btn-rounded" id="bookmark" style="margin: 5%;">Bookmark</button>
-        <div class="btn btn-success" id="finish" style="margin: 5%;">Finish Test</div>
+        <button class="btn btn-primary btn-rounded" id="questions" style="margin: 5%; width: 60%;">Questions</button>
+        <input type="button" value="Prev" id="prev" class="btn btn-primary btn-rounded" style="margin: 5%; width: 30%;">
+        <input type="button" value="Next" id="next" class="btn btn-primary btn-rounded" style="margin: 5%; width: 30%;">
+        <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded" style="margin: 5%; width: 60%;">
+        <button class="btn btn-primary btn-rounded" id="bookmark" style="margin: 5%; width: 60%;">Bookmark</button>
+        <div class="btn btn-success" id="finish" style="margin: 5%; width: 90%;">Finish Test</div>
       </li>
     </ul>
   </div>
-
-  <video id="stream" width="150" height="100">
-    <canvas id="capture" width="150" height="100">
-    </canvas>
-  </video>
 </div>
 
 
@@ -114,7 +115,10 @@
 
       if (mediaSupport && null == cameraStream) {
 
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices.getUserMedia({ video: {
+            width: { min: 270, max: 270 },
+            height: { min: 270, max: 270 },
+          } })
           .then(function (mediaStream) {
 
             cameraStream = mediaStream;

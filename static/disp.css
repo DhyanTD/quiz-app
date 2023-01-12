@@ -35,8 +35,9 @@ footer {
 	cursor: pointer; /* Add a pointer on hover */
 }
 
+
 #question-list {
-	margin: 50% 0%;
+	margin: 40% 0%;
 	background: white;
 	width: 100%;
 	height: 60%;
@@ -45,6 +46,20 @@ footer {
 	position: absolute;
 	/* left: 20%; */
 
+}
+
+@media(min-width:767px){
+#question-list {
+	margin: 12% 15%;
+	background: white;
+	width: 100%;
+	height: 60%;
+	overflow: scroll;
+	display: inline-block;
+	position: absolute;
+	/* left: 20%; */
+
+}
 }
 
 .question {

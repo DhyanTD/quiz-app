@@ -69,11 +69,16 @@
     }
   }
 </style>
+<style>
+  #overlay {
+    z-index: 100;
+    overflow: scroll;
+  }
+</style>
   <div id="overlay">
-    <div class="container" id="question-list">
-    </div>
+    <div class="container" id="question-list"></div>
+    <div class="container" id="submit-overlay"></div>
   </div>
-  <div id="submit-overlay"></div>
 
   <div class="container">
     <ul class="list-unstyled list-inline text-center py-2">

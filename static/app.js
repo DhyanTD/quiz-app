@@ -237,7 +237,7 @@ $('#finish').on("click", function(e) {
     var remaining = nos.length - count;
     if(submit_overlay_display) {
         document.getElementById("submit-overlay").style.display = "block";
-        $('#submit-overlay').append('<div style="background-color:white; display: inline-block;/*! margin: auto; *//*! margin: 0 auto; */position: absolute;left: 40%;top: 33%;padding: 10PX; width:30%;" align="center"><table class="table"> <tr><td>Total Questions</td><td>Attempted</td><td>Remaining</td></tr><tr><td>'+ nos.length +'</td><td>'+ count +'</td><td>'+ remaining +'</td></tr></table> <a class="btn btn-primary" onclick="finish_test();">Submit Test</a></div>');
+        $('#submit-overlay').append('<div style="background-color:white; display: inline-block; position: absolute; left: 40%;top: 33%;padding: 10PX; width:60%;" align="center"><table class="table"> <tr><td>Total Questions</td><td>Attempted</td><td>Remaining</td></tr><tr><td>'+ nos.length +'</td><td>'+ count +'</td><td>'+ remaining +'</td></tr></table> <a class="btn btn-primary" onclick="finish_test();">Submit Test</a></div>');
         submit_overlay_display=false;
     } else {
         document.getElementById("submit-overlay").style.display = "none";

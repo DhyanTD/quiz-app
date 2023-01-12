@@ -53,19 +53,25 @@
   }.dud {
     width: 30%;
     margin:0.5%;
+  }.dude {
+    width: 30%;
+    margin:0.5%;
   }.ded {
     width: 30%;
     margin:0.5%;
   }
   @media(max-width:768px){
     .dod{
-      margin: 0.5%; width: 30%;
+      margin: 1%; width: 30%;
     }
     .dud{
-      margin: 0.5%; width: 30%;
+      margin: 1%; width: 30%;
     }
     .ded{
-      margin: 0.5%; width: 90%;
+      margin: 1%; width: 100%;
+    }
+    .dude{
+      margin: 1%; width: 47%;
     }
   }
 </style>
@@ -79,10 +85,10 @@
     <ul class="list-unstyled list-inline text-center py-2">
       <li class="list-inline-item">
         <button class="btn btn-primary btn-rounded dud" id="questions" >Questions</button>
-        <input type="button" value="Prev" id="prev" class="btn btn-primary btn-rounded dod" style="background-color: #f1f1f1;color: black;" >
-        <input type="button" value="Next" id="next" class="btn btn-primary btn-rounded dod" style="background-color: #04AA6D;color: white;" >
-        <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded dud" >
-        <button class="btn btn-primary btn-rounded dud" id="bookmark" >Bookmark</button>
+        <input type="button" value="&laquo; Prev" id="prev" class="btn btn-primary btn-rounded dod" style="background-color: #ddd;color: black; border: none;" >
+        <input type="button" value="Next &raquo;" id="next" class="btn btn-primary btn-rounded dod" style="background-color: #04AA6D;color: white;" >
+        <input type="button" value="Submit" id="submit" class="btn btn-success btn-rounded dude" >
+        <button class="btn btn-primary btn-rounded dude" id="bookmark" style="background-color: #FFA500;" >Bookmark</button>
         <div class="btn btn-success ded" id="finish" >Finish Test</div>
       </li>
     </ul>

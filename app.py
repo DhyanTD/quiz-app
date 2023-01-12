@@ -179,8 +179,8 @@ class UploadForm(FlaskForm):
 	start_time = TimeField('Start Time', default=datetime.utcnow()+timedelta(hours=5.5))
 	end_date = DateField('End Date')
 	end_time = TimeField('End Time', default=datetime.utcnow()+timedelta(hours=5.5))
-	show_result = BooleanField('Show Result after completion')
-	neg_mark = BooleanField('Enable negative marking')
+	show_result = BooleanField('Show Result after completion', _name='show')
+	neg_mark = BooleanField('Enable negative marking', _name='neg')
 	duration = IntegerField('Duration(in min)')
 	password = StringField('Test Password', [validators.Length(min=3, max=6)])
 

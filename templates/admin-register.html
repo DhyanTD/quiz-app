@@ -12,14 +12,17 @@
     bottom: 0;
   }
 </style>
-<div class="container" align="center" id="" style="position: absolute; top:10%;padding: 1%;">
+<div class="container" align="center" id="" style="position: absolute; top:20%;padding: 1%;">
   {% from "includes/_formhelpers.html" import render_field %}
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-sm">
       <h1>Register</h1>
     </div>
-  </div>
+  </div> -->
   <div class="login-box well">
+    <div class="col-sm">
+      <h1>Register</h1>
+    </div>
     <form method="POST" action="">
       <div class="form-group">
         {{render_field(form.name, class_="form-control", placeholder="eg. John Smith")}}

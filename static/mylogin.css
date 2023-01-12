@@ -32,10 +32,8 @@ h1{
 }
 
 .form-group{
-
    margin-top: 2%;
    width: 96%;
-
 }
 
 #up{
@@ -56,6 +54,30 @@ h1{
    background-color: #6a63dd;
    /*padding-top: 20%; */ 
    margin-top: 200px;
+}
+
+@media(min-width:767px){
+
+   .form-group {
+         margin-top: 2%;
+         width: 75%;
+      }
+
+   .login-box {
+         width: 50%;
+         border: #6a63dd solid 5px;
+         padding-top: 2%;
+         border-radius: 0px 0px 20px 20px;
+      }
+   
+      .row {
+         border-radius: 20px 20px 0px 0px;
+         border: #6a63dd solid 5px;
+         width: 50%;
+         background-color: #6a63dd;
+         /*padding-top: 20%; */
+         margin-top: 200px;
+      }
 }
 
 .btn{

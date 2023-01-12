@@ -9,6 +9,11 @@ body{
    background-color: white !important;
 }
 
+.footer {
+   position: absolute;
+   bottom: 0;
+}
+
 
 .thim-link-login{
    font-size: 14px;

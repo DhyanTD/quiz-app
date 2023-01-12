@@ -6,14 +6,14 @@
 #heading{
     border-radius: 20px 20px 0px 0px;
     border: #6a63dd solid 5px;
-    width: 800px;
+    width: 96%;
     background-color: #6a63dd;
     /*padding-top: 20%; */ 
     margin-top: 50px;
  }
 
  .login-box{
-    width: 800px;
+    width: 96%;
     border: #6a63dd solid 5px;
     padding-top: 2%;
     border-radius: 0px 0px 20px 20px;
@@ -21,6 +21,8 @@
  }
 .container {
     align-items: center;
+    padding-left: 0;
+    padding-right: 0;
 } 
 h1{
     margin-top: 2%;
@@ -30,4 +32,19 @@ h1{
 
 #heading,  .login-box{
     margin:0 auto;
+}
+
+
+.footer {
+    position: absolute;
+        bottom: -370px;
+}
+
+@media(max-width:500px) {
+
+    .footer {
+            position: absolute;
+            bottom: -250px;
+        }
+    
 }

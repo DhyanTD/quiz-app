@@ -40,7 +40,7 @@ h1{
 }
 
 .login-box{
-   width: 800px;
+   width: 96%;
    border: #6a63dd solid 5px;
    border-radius: 0px 0px 20px 20px;
 }
@@ -48,7 +48,7 @@ h1{
 .row{
    border-radius: 20px 20px 0px 0px;
    border: #6a63dd solid 5px;
-   width: 800px;
+   width: 96%;
    background-color: #6a63dd;
    /*padding-top: 20%; */ 
    margin-top: 50px;
@@ -57,7 +57,7 @@ h1{
 .btn{
    margin-top: 1%;
    margin-bottom: 1.5%; 
-   width: 150px;
+   width: 40%;
 }
 
 #acc{
@@ -79,4 +79,9 @@ p {
    margin-top: -26px;
    position: relative;
    z-index: 2;
+}
+
+.container {
+   padding-left: 0;
+   padding-right: 0;
 }

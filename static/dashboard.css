@@ -11,6 +11,12 @@ img {
 	border-radius: 7%;
 }
 */
+
+.footer {
+	position: absolute;
+	bottom: 0;
+}
+
 .mysec img{
 	margin: 0 auto;
 	display: block;

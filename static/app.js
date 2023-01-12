@@ -164,7 +164,7 @@ $('#submit').on('click', function(e){
 function onn() {
     $('.question').remove();
     document.getElementById("overlay").style.display = "block";
-    $('#question-list').append('<div id="close">X</div>');
+    $('#question-list').append('<div id="close">❌</div>');
     $('#close').on('click', function(e){
         off();
     });
@@ -230,18 +230,35 @@ $('#options').on('click', 'td', function(){
     }
 });
 
+
+function onn1() {
+    $('.sub').remove();
+    document.getElementById("overlay1").style.display = "block";
+    $('#overlay1').append('<div id="close1">❌</div>');
+    $('#close1').on('click', function (e) {
+        off1();
+    });
+}
+
+function off1() {
+    document.getElementById("overlay1").style.display = "none";
+    $('#close1').remove();
+}
+
 var submit_overlay_display = true;
-$('#finish').on("click", function(e) {
+$('#finish').on("click", function (e) {
+    onn1();
     $('#submit-overlay').empty();
     var count = marked();
     var remaining = nos.length - count;
     if(submit_overlay_display) {
         document.getElementById("submit-overlay").style.display = "block";
-        $('#submit-overlay').append('<div style="background-color:white; display: inline-block; position: absolute; left: 40%;top: 33%;padding: 10PX; width:60%;" align="center"><table class="table"> <tr><td>Total Questions</td><td>Attempted</td><td>Remaining</td></tr><tr><td>'+ nos.length +'</td><td>'+ count +'</td><td>'+ remaining +'</td></tr></table> <a class="btn btn-primary" onclick="finish_test();">Submit Test</a></div>');
-        submit_overlay_display=false;
+        $('#submit-overlay').append('<div class="sub" style="background-color:white; display: inline-block; position: absolute; top: 33%;padding: 6PX; width:100%;" align="center"><table class="table"> <tr><td>Total Questions</td><td>Attempted</td><td>Remaining</td></tr><tr><td>'+ nos.length +'</td><td>'+ count +'</td><td>'+ remaining +'</td></tr></table> <a class="btn btn-primary" onclick="finish_test(); style="color:white;">Submit Test</a></div>');
+        submit_overlay_display = false;
     } else {
         document.getElementById("submit-overlay").style.display = "none";
         submit_overlay_display = true;
+        off1();
     }
 });
 

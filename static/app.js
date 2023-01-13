@@ -519,7 +519,7 @@ const ava = ({ icon = 'success', toast = false, progressBar = true, text = null,
 window.addEventListener('blur', function() {
     ava({
         icon: 'danger',
-        text: 'Warning! <br> Do not Switch tabs/window. You are being monitored!',
+        text: '<h3>Warning!</h3> Do not Switch tabs/window. You are being monitored!',
         btnText: 'Okay',
         progressBar: true,
         toast: false,

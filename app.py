@@ -716,8 +716,8 @@ import camera
 
 @app.route('/disp')
 def disp():
-	print(ddd)
-	flash('kitne log hein bhaii','danger')
+	# print(ddd)
+	# flash('kitne log hein bhaii','danger')
 	return redirect(url_for('video_feed'))
 
 @app.route('/video_feed', methods=['GET','POST'])
@@ -729,27 +729,16 @@ def video_feed():
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
 		ddd = camera.get_frame(imgData)
-		try:
-			if (ddd['mob_status'] and ddd['mob_status']==1):
-				cheating += 1
-			elif (ddd['person_status'] and ddd['person_status']==2):
-				cheating += 1
-			elif (ddd['user_move1'] and ddd['user_move1']!=0):
-				cheating += 1
-			elif (ddd['user_move2'] and ddd['user_move2']!=0):
-				cheating += 1
-			elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
-				cheating += 1
-		except:
-			pass
-		# if ddd['person_status'] == 2:
-		# 	cheating = True
-		# 	return redirect(url_for('index'))
-		print(ddd)
-		print(cheating)
-		flash('jhdsghdsgjsd','danger')
-		# if proctorData['person_status'] == 2:
-		# 	flash('Screen tuula!', 'danger')
+		if (ddd['mob_status'] and ddd['mob_status']==1):
+			cheating += 1
+		elif (ddd['person_status'] and ddd['person_status']==2):
+			cheating += 1
+		elif (ddd['user_move1'] and ddd['user_move1']!=0):
+			cheating += 1
+		elif (ddd['user_move2'] and ddd['user_move2']!=0):
+			cheating += 1
+		elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
+			cheating += 1
 	return render_template('quiz.html')
 
 	

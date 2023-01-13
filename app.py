@@ -244,10 +244,14 @@ def register():
 		school = form.school.data
 		stream = form.stream.data
 		# password = str(form.password.data)
-		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO users(username,name,fathers_name ,school, stream ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, stream, email, password))
-		mysql.connection.commit()
-		cur.close()
+		try:
+			cur = mysql.connection.cursor()
+			cur.execute('INSERT INTO users(username,name,fathers_name ,school, stream ,email, password,confirmed) values(%s,%s,%s,%s,%s,%s,%s,0)', (username,name,fath, school, stream, email, password))
+			mysql.connection.commit()
+			cur.close()
+		except:
+			flash('User exists','info')
+			return redirect(url_for('login'))
 		flash('Thanks for registering!', 'success')
 		return redirect(url_for('login')) 
 		# change in login function to redirect to warning page

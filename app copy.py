@@ -749,5 +749,5 @@ def video_feed():
 
 	
 if __name__ == '__main__':
-    app.run(debug=True, host="192.168.167.144")
+    app.run(debug=True, host="192.168.3.144")
     # app.run(debug=True)

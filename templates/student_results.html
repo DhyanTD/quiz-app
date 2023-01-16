@@ -30,7 +30,7 @@
     <tbody>
         {% for result in data %}
             <tr>
-                <td>{{result['srno']}}</td>
+                <td>{{loop.index}}</td>
                 <td>{{result['name']}}</td>
                 <td>{{result['username']}}</td>
                 <td>{{result['marks']}}</td>

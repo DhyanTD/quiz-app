@@ -747,7 +747,12 @@ def video_feed():
 		# 	flash('Screen tuula!', 'danger')
 	return render_template('quiz.html')
 
-	
+
+@app.route('/help_support')
+# @is_logged
+def help_support():
+	return render_template('contactus.html')
+
 if __name__ == '__main__':
-    app.run(debug=True, host="192.168.3.144")
+    app.run(debug=True, host="192.168.63.144")
     # app.run(debug=True)

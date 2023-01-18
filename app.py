@@ -613,7 +613,7 @@ def student_results(username, testid):
 			results = sorted(results, key=operator.itemgetter('marks'), reverse=True)
 			return render_template('student_results.html', data=results)
 		else:
-			fields = ['Sr No', 'Name', 'Marks']
+			fields = ['Sr No', 'Name', 'Marks', 'trust_score', 'Phone No.']
 			with open('static/' + testid + '.csv', 'w') as f:
 				writer = csv.writer(f)
 				writer.writerow(fields)

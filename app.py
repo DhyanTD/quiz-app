@@ -741,6 +741,10 @@ def video_feed():
 			cheating += 1
 	return render_template('quiz.html')
 
+@app.route('/help_support')
+# @is_logged
+def help_support():
+	return render_template('contactus.html')
 	
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

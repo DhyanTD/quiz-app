@@ -335,7 +335,7 @@ def create_test():
 				question = data['((QUESTION))']
 				correct_ans = data['((CORRECT_CHOICE)) (A/B/C/D)']
 				explanation = data['((EXPLANATION)) (OPTIONAL)']
-				
+
 				cur.execute('INSERT INTO questions(test_id,qid,q,a,b,c,d,ans,marks,explanation) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', 
 					(test_id,no,question,a,b,c,d,correct_ans,marks,explanation))
 				mysql.connection.commit()
@@ -347,7 +347,6 @@ def create_test():
 			end_date_time = str(end_date) + " " + str(end_time)
 			show_result = form.show_result.data
 			neg_mark = form.neg_mark.data
-
 			duration = int(form.duration.data)*60
 			password = form.password.data
 			subject = form.subject.data

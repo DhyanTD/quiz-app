@@ -291,7 +291,7 @@ def login():
 				return render_template('login.html', error=error)
 			cur.close()
 		else:
-			error = 'Username not found'
+			error = 'User not found'
 			return render_template('login.html', error=error)
 	return render_template('login.html')
 

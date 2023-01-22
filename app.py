@@ -723,21 +723,21 @@ def disp():
 def video_feed():
 	# cheating=0
 	global cheating
-	if request.method == "POST":
-		imgData = request.form['data[imgData]']
+	# if request.method == "POST":
+	# 	imgData = request.form['data[imgData]']
 		# proctorData = camera.get_frame(imgData)
 		# proctorData = get_analysis(imgData, "model/shape_predictor_68_face_landmarks.dat")
-		ddd = camera.get_frame(imgData)
-		if (ddd['mob_status'] and ddd['mob_status']==1):
-			cheating += 1
-		elif (ddd['person_status'] and ddd['person_status']==2):
-			cheating += 1
-		elif (ddd['user_move1'] and ddd['user_move1']!=0):
-			cheating += 1
-		elif (ddd['user_move2'] and ddd['user_move2']!=0):
-			cheating += 1
-		elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
-			cheating += 1
+		# ddd = camera.get_frame(imgData)
+		# if (ddd['mob_status'] and ddd['mob_status']==1):
+		# 	cheating += 1
+		# elif (ddd['person_status'] and ddd['person_status']==2):
+		# 	cheating += 1
+		# elif (ddd['user_move1'] and ddd['user_move1']!=0):
+		# 	cheating += 1
+		# elif (ddd['user_move2'] and ddd['user_move2']!=0):
+		# 	cheating += 1
+		# elif (ddd['eye_movements'] and ddd['eye_movements']!=1):
+		# 	cheating += 1
 	return render_template('quiz.html')
 
 @app.route('/help_support')

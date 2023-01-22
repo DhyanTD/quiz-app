@@ -748,8 +748,8 @@ def help_support():
 
 @app.route('/tempreg')
 # @is_logged
-def help_support():
-	return render_template('contactus.html')
+def tempreg():
+	return render_template('tempreg.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

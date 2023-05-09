@@ -603,16 +603,19 @@ def student_results(username, testid):
 		final = []
 		count = 1
 		for user in results:
+			res = cur.execute("select users.school as school, users.stream as stream from users where username = %s",[user['username']])
+			res = cur.fetchall()
+			print(res)
 			score = marks_calc(user['username'], testid)
 			user['srno'] = count
 			user['marks'] = score
-			final.append([count, user['name'], score, user['trust_score'], user['username']])
+			final.append([count, user['name'], score, user['username'], res[0]['school'], res[0]['stream']])
 			count+=1
 		if request.method =='GET':
 			results = sorted(results, key=operator.itemgetter('marks'), reverse=True)
 			return render_template('student_results.html', data=results)
 		else:
-			fields = ['Sr No', 'Name', 'Marks', 'trust_score', 'Phone No.']
+			fields = ['Submission Order', 'Name', 'Marks', 'Phone No.', 'school', 'stream']
 			with open('static/' + testid + '.csv', 'w') as f:
 				writer = csv.writer(f)
 				writer.writerow(fields)
